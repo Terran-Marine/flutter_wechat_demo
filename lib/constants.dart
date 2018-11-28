@@ -57,4 +57,9 @@ class AppStyles {
     fontSize: 12.0,
     color: Color(AppColors.DeviceInfoText),
   );
+
+  static const GroupTitleItemTextStyle = TextStyle(
+    fontSize: 14.0,
+    color: Color(AppColors.ContactGroupTitleText),
+  );
 }
