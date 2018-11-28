@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/modal/contacts.dart' show Contact, ContactsPageData;
-import 'package:flutter_app/constants.dart' show Constants, AppColors,AppStyles;
+import 'package:flutter_app/constants.dart'
+    show Constants, AppColors, AppStyles;
 
 class _ContactItem extends StatelessWidget {
 //  final Contact _contact = ContactsPageData.mock().contacts[0];
@@ -64,7 +65,7 @@ class _ContactItem extends StatelessWidget {
       _itemBody = Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left:10.0,top:5.0,bottom: 5.0),
+            padding: EdgeInsets.only(left: 10.0, top: 5.0, bottom: 5.0),
             alignment: Alignment.centerLeft,
             color: Color(AppColors.ContactGroupTitleBg),
             child: Text(
@@ -120,6 +121,14 @@ class _ContactsPageState extends State<ContactsPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _contacts.sort((Contact a, Contact b) {
+      return a.nameIndex.compareTo(b.nameIndex);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
@@ -131,7 +140,12 @@ class _ContactsPageState extends State<ContactsPage> {
           return _ContactItem(
             avatar: _contact.avatar,
             title: _contact.name,
-            groupTitle: _contact.nameIndex,
+            groupTitle: (index == _functionButtons.length) ||
+                    ((_contacts[index - _functionButtons.length - 1]
+                            .nameIndex !=
+                        _contact.nameIndex))
+                ? _contact.nameIndex
+                : null,
           );
         }
       },
