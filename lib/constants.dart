@@ -35,6 +35,7 @@ class Constants {
   static const DeiceInfoItemHeight = 32.0;
   static const ContactAvatarSize = 36.0;
   static const DividerWidth = 1.0;
+  static const IndexBarWitch = 24.0;
 }
 
 class AppStyles {
