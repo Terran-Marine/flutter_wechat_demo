@@ -56,6 +56,8 @@ flutter:
     - images/ic_public_account.png
     - images/ic_qrcode_preview_tiny.png
     - images/ic_quick_scan.png
+    - images/ic_feeds.png
+    - images/ic_quick_search.png
     - images/ic_settings.png
     - images/ic_shake_phone.png
     - images/ic_shopping.png

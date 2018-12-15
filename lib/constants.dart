@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  static const BackgroundColor = 0xffebebeb;
   static const AppBarColor = 0xff303030;
   static const TabIconActiveColor = 0xff46c11b;
   static const TabIconNormalColor = 0xff999999;
@@ -25,6 +26,7 @@ class AppColors {
   static const DeviceInfoItemIcon = 0xff606062;
   static const ContactGroupTitleBg = 0xffebebeb;
   static const ContactGroupTitleText = 0xff888888;
+  static const IndexLetterBoxBG = Colors.black45;
 }
 
 class Constants {
@@ -36,6 +38,9 @@ class Constants {
   static const ContactAvatarSize = 36.0;
   static const DividerWidth = 1.0;
   static const IndexBarWitch = 24.0;
+  static const IndexLetterBoxSize = 114.0;
+  static const IndexLetterBoxRadius = 4.0;
+  static const FullWidthIconBtnIconSize = 24.0;
 }
 
 class AppStyles {
@@ -63,4 +68,10 @@ class AppStyles {
     fontSize: 14.0,
     color: Color(AppColors.ContactGroupTitleText),
   );
+
+  static const IndexLetterBoxTextStyle = TextStyle(
+    fontSize: 65.0,
+    color: Colors.white,
+  );
+
 }

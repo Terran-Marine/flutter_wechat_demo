@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/modal/contacts.dart' show Contact, ContactsPageData;
 import 'package:flutter_app/constants.dart'
     show Constants, AppColors, AppStyles;
+import 'dart:math';
+
 
 class _ContactItem extends StatelessWidget {
 //  final Contact _contact = ContactsPageData.mock().contacts[0];
@@ -11,14 +13,14 @@ class _ContactItem extends StatelessWidget {
   final String groupTitle;
   final VoidCallback onPressed;
 
-  static final  double MARGIN_VERTICAL = 10.0;
-  static  final  double GROUP_TITLE_HEIGHT = 24.0;
+  static final double MARGIN_VERTICAL = 10.0;
+  static final double GROUP_TITLE_HEIGHT = 24.0;
 
   bool get _isAvatarFromNet {
     return this.avatar.startsWith("http");
   }
 
- static  double  _height(bool hasGroupTitle) {
+  static double _height(bool hasGroupTitle) {
     var _buttonHeight = MARGIN_VERTICAL * 2 +
         Constants.ContactAvatarSize +
         Constants.DividerWidth;
@@ -141,6 +143,7 @@ class _ContactsPageState extends State<ContactsPage> {
   ScrollController _scrollController;
   Container controller;
   final Map<String, double> _letterMap = {INDEX_BAR_WORDS[0]: 0.0};
+  String _currentLetter = "";
 
   final List<Contact> _contacts = ContactsPageData.mock().contacts;
   final List<_ContactItem> _functionButtons = [
@@ -170,9 +173,6 @@ class _ContactsPageState extends State<ContactsPage> {
         }),
   ];
 
-
-
-
   @override
   void initState() {
     super.initState();
@@ -183,22 +183,21 @@ class _ContactsPageState extends State<ContactsPage> {
 
     _scrollController = new ScrollController();
 
-
     //計算index的位置offset
-    var _totalPos = _functionButtons.length* _ContactItem._height(false);
+    var _totalPos = _functionButtons.length * _ContactItem._height(false);
 
-    for (int i =0;i<_contacts.length;i++){
-      bool _hasGroupTitle= true;
+    for (int i = 0; i < _contacts.length; i++) {
+      bool _hasGroupTitle = true;
 
-      if(i>0&&_contacts[i].nameIndex==(_contacts[i-1].nameIndex)){
-        _hasGroupTitle=false;
+      if (i > 0 && _contacts[i].nameIndex == (_contacts[i - 1].nameIndex)) {
+        _hasGroupTitle = false;
       }
 
-      if(_hasGroupTitle){
-        _letterMap[_contacts[i].nameIndex]=_totalPos;
+      if (_hasGroupTitle) {
+        _letterMap[_contacts[i].nameIndex] = _totalPos;
       }
 
-      _totalPos+=_ContactItem._height(_hasGroupTitle);
+      _totalPos += _ContactItem._height(_hasGroupTitle);
     }
   }
 
@@ -208,79 +207,123 @@ class _ContactsPageState extends State<ContactsPage> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  String _getletter(BuildContext context, Offset globalPos, double tileHeight) {
+    RenderBox _findRenderObject = context.findRenderObject();
+    var local = _findRenderObject.globalToLocal(globalPos);
+    return INDEX_BAR_WORDS[
+        (local.dy ~/ tileHeight).clamp(0, INDEX_BAR_WORDS.length - 1)];
+  }
+
+  void _jumpToIndex(String letter) {
+    _scrollController.animateTo(_letterMap[letter],
+        duration: Duration(milliseconds: 200), curve: Curves.ease);
+  }
+
+  Widget _buildIndexBar(BuildContext context, BoxConstraints constraints) {
     final List<Widget> _letters = INDEX_BAR_WORDS.map((String word) {
       return Expanded(
-          child: Text(
-        word,
+          child: Container(
+            color: Color.fromARGB(255, Random().nextInt(255), Random().nextInt(255), Random().nextInt(255)),
+        child: Text(
+          word,
+        ),
       ));
     }).toList();
 
+    final double _totalHeight = constraints.biggest.height;
+    final double _tileHeight = _totalHeight / _letters.length;
+    return GestureDetector(
+      child: Column(
+        children: _letters,
+      ),
+      onVerticalDragDown: (DragDownDetails details) {
+        print("按下");
+        setState(() {
+          _indexBarBG = Colors.black26;
+          var indexLetter =
+              _getletter(context, details.globalPosition, _tileHeight);
+          _currentLetter = indexLetter;
+          _jumpToIndex(indexLetter);
+        });
+      },
+      onVerticalDragUpdate: (DragUpdateDetails details) {
+        print("Update");
+        setState(() {
+          _indexBarBG = Colors.black26;
+          var indexLetter =
+              _getletter(context, details.globalPosition, _tileHeight);
+          _currentLetter = indexLetter;
+          _jumpToIndex(indexLetter);
+        });
+      },
+      onVerticalDragCancel: () {
+        print("取消");
+        setState(() {
+          _currentLetter = null;
+          _indexBarBG = Colors.transparent;
+        });
+      },
+      onVerticalDragEnd: (DragEndDetails details) {
+        print("结束");
+        setState(() {
+          _currentLetter = null;
+          _indexBarBG = Colors.transparent;
+        });
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> _body = [
+      ListView.builder(
+        controller: _scrollController,
+        itemBuilder: (BuildContext context, int index) {
+          if (index < _functionButtons.length) {
+            return _functionButtons[index];
+          } else {
+            Contact _contact = _contacts[index - _functionButtons.length];
+
+            return _ContactItem(
+              avatar: _contact.avatar,
+              title: _contact.name,
+              groupTitle:
+                  _isGroupTitle(index, _contact) ? _contact.nameIndex : null,
+            );
+          }
+        },
+        itemCount: _contacts.length + _functionButtons.length,
+      ),
+      Positioned(
+          bottom: 0.0,
+          top: 0.0,
+          right: 0.0,
+          width: Constants.IndexBarWitch,
+          child: Container(
+            color: _indexBarBG,
+            child: LayoutBuilder(builder: _buildIndexBar),
+          )),
+    ];
+
+    if (_currentLetter != null && _currentLetter.isNotEmpty) {
+      _body.add(Center(
+        child: Container(
+            width: Constants.IndexLetterBoxSize,
+            height: Constants.IndexLetterBoxSize,
+            decoration: BoxDecoration(
+                color: AppColors.IndexLetterBoxBG,
+                borderRadius: BorderRadius.all(
+                    Radius.circular(Constants.IndexLetterBoxRadius))),
+            child: Center(
+                child: Text(
+              _currentLetter,
+              style: AppStyles.IndexLetterBoxTextStyle,
+            ))),
+      ));
+    }
 
     return Stack(
-      children: <Widget>[
-        ListView.builder(
-          controller: _scrollController,
-          itemBuilder: (BuildContext context, int index) {
-            if (index < _functionButtons.length) {
-//              _totalPos += _functionButtons[index]._height(false);
-              return _functionButtons[index];
-            } else {
-              Contact _contact = _contacts[index - _functionButtons.length];
-
-//              if (_isGroupTitle(index, _contact)) {
-//                _letterMap[_contact.nameIndex] = _totalPos;
-//              }
-//              _totalPos += _contactItem
-//                  ._height(_isGroupTitle(index, _contact));
-              return _ContactItem(
-                avatar: _contact.avatar,
-                title: _contact.name,
-                groupTitle:
-                _isGroupTitle(index, _contact) ? _contact.nameIndex : null,
-              );;
-            }
-          },
-          itemCount: _contacts.length + _functionButtons.length,
-        ),
-        Positioned(
-            bottom: 0.0,
-            top: 0.0,
-            right: 0.0,
-            width: Constants.IndexBarWitch,
-            child: Container(
-                color: _indexBarBG,
-                child: GestureDetector(
-                  child: Column(
-                    children: _letters,
-                  ),
-                  onVerticalDragDown: (DragDownDetails details) {
-                    print("按下");
-
-                    setState(() {
-                      _indexBarBG = Colors.black12;
-                    });
-                  },
-                  onVerticalDragCancel: () {
-                    print("取消");
-                    setState(() {
-                      _indexBarBG = Colors.transparent;
-                    });
-                  },
-                  onVerticalDragEnd: (DragEndDetails details) {
-                    setState(() {
-                      _indexBarBG = Colors.transparent;
-                    });
-                    print("結束 offset:${_letterMap['M']}");
-
-
-                    _scrollController.animateTo(_letterMap['M'],
-                        duration: Duration(milliseconds: 200),
-                        curve: Curves.ease);
-                    },
-                )))
-      ],
+      children: _body,
     );
   }
 
