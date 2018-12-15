@@ -4,7 +4,6 @@ import 'package:flutter_app/constants.dart'
     show Constants, AppColors, AppStyles;
 import 'dart:math';
 
-
 class _ContactItem extends StatelessWidget {
 //  final Contact _contact = ContactsPageData.mock().contacts[0];
 
@@ -221,13 +220,7 @@ class _ContactsPageState extends State<ContactsPage> {
 
   Widget _buildIndexBar(BuildContext context, BoxConstraints constraints) {
     final List<Widget> _letters = INDEX_BAR_WORDS.map((String word) {
-      return Expanded(
-          child: Container(
-            color: Color.fromARGB(255, Random().nextInt(255), Random().nextInt(255), Random().nextInt(255)),
-        child: Text(
-          word,
-        ),
-      ));
+      return Expanded(child: Text(word));
     }).toList();
 
     final double _totalHeight = constraints.biggest.height;
