@@ -4,6 +4,7 @@ import 'package:flutter_app/constants.dart' show AppColors;
 import 'conversation_page.dart';
 import 'contacts_page.dart';
 import 'discover_page.dart';
+import 'mine_page.dart';
 
 class NavigationIconView {
   final BottomNavigationBarItem item;
@@ -62,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ConversationPage(),
       ContactsPage(),
       DiscoverPage(),
-      Container(color: Colors.deepPurpleAccent),
+      MinePage(),
     ];
     super.initState();
   }

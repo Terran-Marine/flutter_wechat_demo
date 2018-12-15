@@ -70,6 +70,7 @@ flutter:
     - images/tongxunlu.png
     - images/weixin.png
     - images/wo.png
+    - images/ic_rq_code.png
 
   fonts:
     - family: appIconFont
