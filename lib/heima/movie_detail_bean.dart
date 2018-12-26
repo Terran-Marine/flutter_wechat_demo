@@ -1,61 +1,22 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'movie_bean.g.dart';
+part 'movie_detail_bean.g.dart';
 
 
 @JsonSerializable()
-class MovieBean extends Object {
-
-  @JsonKey(name: 'count')
-  int count;
-
-  @JsonKey(name: 'start')
-  int start;
-
-  @JsonKey(name: 'total')
-  int total;
-
-  @JsonKey(name: 'subjects')
-  List<Subjects> subjects;
-
-  @JsonKey(name: 'title')
-  String title;
-
-  MovieBean(this.count,this.start,this.total,this.subjects,this.title,);
-
-  factory MovieBean.fromJson(Map<String, dynamic> srcJson) => _$MovieBeanFromJson(srcJson);
-
-  Map<String, dynamic> toJson() => _$MovieBeanToJson(this);
-
-}
-
-
-@JsonSerializable()
-class Subjects extends Object {
+class MovieDetailBean extends Object {
 
   @JsonKey(name: 'rating')
   Rating rating;
 
-  @JsonKey(name: 'genres')
-  List<String> genres;
+  @JsonKey(name: 'reviews_count')
+  int reviewsCount;
 
-  @JsonKey(name: 'title')
-  String title;
+  @JsonKey(name: 'wish_count')
+  int wishCount;
 
-  @JsonKey(name: 'casts')
-  List<Casts> casts;
-
-  @JsonKey(name: 'collect_count')
-  int collectCount;
-
-  @JsonKey(name: 'original_title')
-  String originalTitle;
-
-  @JsonKey(name: 'subtype')
-  String subtype;
-
-  @JsonKey(name: 'directors')
-  List<Directors> directors;
+  @JsonKey(name: 'douban_site')
+  String doubanSite;
 
   @JsonKey(name: 'year')
   String year;
@@ -69,11 +30,56 @@ class Subjects extends Object {
   @JsonKey(name: 'id')
   String id;
 
-  Subjects(this.rating,this.genres,this.title,this.casts,this.collectCount,this.originalTitle,this.subtype,this.directors,this.year,this.images,this.alt,this.id,);
+  @JsonKey(name: 'mobile_url')
+  String mobileUrl;
 
-  factory Subjects.fromJson(Map<String, dynamic> srcJson) => _$SubjectsFromJson(srcJson);
+  @JsonKey(name: 'title')
+  String title;
 
-  Map<String, dynamic> toJson() => _$SubjectsToJson(this);
+  @JsonKey(name: 'share_url')
+  String shareUrl;
+
+  @JsonKey(name: 'schedule_url')
+  String scheduleUrl;
+
+  @JsonKey(name: 'countries')
+  List<String> countries;
+
+  @JsonKey(name: 'genres')
+  List<String> genres;
+
+  @JsonKey(name: 'collect_count')
+  int collectCount;
+
+  @JsonKey(name: 'casts')
+  List<Casts> casts;
+
+  @JsonKey(name: 'original_title')
+  String originalTitle;
+
+  @JsonKey(name: 'summary')
+  String summary;
+
+  @JsonKey(name: 'subtype')
+  String subtype;
+
+  @JsonKey(name: 'directors')
+  List<Directors> directors;
+
+  @JsonKey(name: 'comments_count')
+  int commentsCount;
+
+  @JsonKey(name: 'ratings_count')
+  int ratingsCount;
+
+  @JsonKey(name: 'aka')
+  List<String> aka;
+
+  MovieDetailBean(this.rating,this.reviewsCount,this.wishCount,this.doubanSite,this.year,this.images,this.alt,this.id,this.mobileUrl,this.title,this.shareUrl,this.scheduleUrl,this.countries,this.genres,this.collectCount,this.casts,this.originalTitle,this.summary,this.subtype,this.directors,this.commentsCount,this.ratingsCount,this.aka,);
+
+  factory MovieDetailBean.fromJson(Map<String, dynamic> srcJson) => _$MovieDetailBeanFromJson(srcJson);
+
+  Map<String, dynamic> toJson() => _$MovieDetailBeanToJson(this);
 
 }
 
@@ -98,6 +104,27 @@ class Rating extends Object {
   factory Rating.fromJson(Map<String, dynamic> srcJson) => _$RatingFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$RatingToJson(this);
+
+}
+
+
+@JsonSerializable()
+class Images extends Object {
+
+  @JsonKey(name: 'small')
+  String small;
+
+  @JsonKey(name: 'large')
+  String large;
+
+  @JsonKey(name: 'medium')
+  String medium;
+
+  Images(this.small,this.large,this.medium,);
+
+  factory Images.fromJson(Map<String, dynamic> srcJson) => _$ImagesFromJson(srcJson);
+
+  Map<String, dynamic> toJson() => _$ImagesToJson(this);
 
 }
 
@@ -171,45 +198,6 @@ class Directors extends Object {
 }
 
 
-//@JsonSerializable()
-//class Avatars extends Object {
-//
-//  @JsonKey(name: 'small')
-//  String small;
-//
-//  @JsonKey(name: 'large')
-//  String large;
-//
-//  @JsonKey(name: 'medium')
-//  String medium;
-//
-//  Avatars(this.small,this.large,this.medium,);
-//
-//  factory Avatars.fromJson(Map<String, dynamic> srcJson) => _$AvatarsFromJson(srcJson);
-//
-//  Map<String, dynamic> toJson() => _$AvatarsToJson(this);
-//
-//}
 
-
-@JsonSerializable()
-class Images extends Object {
-
-  @JsonKey(name: 'small')
-  String small;
-
-  @JsonKey(name: 'large')
-  String large;
-
-  @JsonKey(name: 'medium')
-  String medium;
-
-  Images(this.small,this.large,this.medium,);
-
-  factory Images.fromJson(Map<String, dynamic> srcJson) => _$ImagesFromJson(srcJson);
-
-  Map<String, dynamic> toJson() => _$ImagesToJson(this);
-
-}
 
 

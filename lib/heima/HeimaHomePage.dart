@@ -11,9 +11,9 @@ class HeimaHomePage extends StatefulWidget {
 class _HeimaHomePageState extends State<HeimaHomePage> {
   var _currentIndex = 0;
   var _tabPage = [
-    FilterMoviePage(),
+    CreationMoviePage(mt:"in_theaters"),
     CreationMoviePage(mt: "coming_soon",),
-    LocalMoviesPage()
+    CreationMoviePage(mt: "top250",)
   ];
 
   var _pageController=PageController(initialPage: 0);
