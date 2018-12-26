@@ -5,6 +5,7 @@ import 'conversation_page.dart';
 import 'contacts_page.dart';
 import 'discover_page.dart';
 import 'mine_page.dart';
+import 'package:flutter_app/widget/Test.dart';
 
 class NavigationIconView {
   final BottomNavigationBarItem item;
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ConversationPage(),
       ContactsPage(),
       DiscoverPage(),
-      MinePage(),
+      Test(),
     ];
     super.initState();
   }
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Text(
           title,
           style: TextStyle(color: Colors.white),
-        )
+        ),
       ],
     );
   }

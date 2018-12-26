@@ -13,11 +13,11 @@ class _ConversationItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget avatar;
     if (_conversation.isAvatarFromNet()) {
-      avatar = avatar = Image.network(_conversation.avatar,
+      avatar = Image.network(_conversation.avatar,
           width: Constants.ConversationAvatarSize,
           height: Constants.ConversationAvatarSize);
     } else {
-      avatar = avatar = Image.asset(_conversation.avatar,
+      avatar = Image.asset(_conversation.avatar,
           width: Constants.ConversationAvatarSize,
           height: Constants.ConversationAvatarSize);
     }
