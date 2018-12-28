@@ -13,7 +13,8 @@ class CreationMoviePage extends StatefulWidget {
   _CreationMoviePageState createState() => _CreationMoviePageState();
 }
 
-class _CreationMoviePageState extends State<CreationMoviePage> with AutomaticKeepAliveClientMixin {
+class _CreationMoviePageState extends State<CreationMoviePage>
+    with AutomaticKeepAliveClientMixin {
   Dio _dio = Dio();
   int _page = 1;
   int _pageSize = 20;
@@ -76,20 +77,26 @@ class _CreationMoviePageState extends State<CreationMoviePage> with AutomaticKee
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            "电影名称: ${movie.title}",
-                            overflow: TextOverflow.fade,
-                            softWrap: false,
-                            textAlign: TextAlign.start,
+                          Container(
+                            width: 200,
+                            child: Text(
+                              "电影名称: ${movie.title}",
+                              overflow: TextOverflow.fade,
+                              softWrap: false,
+                              textAlign: TextAlign.start,
+                            ),
                           ),
                           Text("上映年份: ${movie.year}"),
                           Text("电影类型: ${movie.genres.join(",")}"),
                           Text("电影评分: ${movie.rating.average}"),
-                          Text(
-                            "电影名称: ${movie.title}",
-                            overflow: TextOverflow.fade,
-                            softWrap: false,
-                            textAlign: TextAlign.start,
+                          Container(
+                            width: 200,
+                            child: Text(
+                              "电影名称: ${movie.title}",
+                              overflow: TextOverflow.fade,
+                              softWrap: false,
+                              textAlign: TextAlign.start,
+                            ),
                           ),
                         ],
                       ),
